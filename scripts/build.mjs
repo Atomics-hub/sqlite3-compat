@@ -1,0 +1,12 @@
+import {mkdir, readFile, writeFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+const root = new URL('../', import.meta.url);
+const source = await readFile(new URL('src/index.cjs', root), 'utf8');
+if (!/module\.exports = sqlite3;/.test(source)) throw new Error('Review build exports');
+await mkdir(new URL('dist/', root), {recursive: true});
+await writeFile(new URL('dist/index.cjs', root), source);
+const sqlite3 = createRequire(import.meta.url)('../dist/index.cjs');
+const names = Object.keys(sqlite3).filter(name => /^[A-Za-z_$][\w$]*$/.test(name) && name !== 'default');
+await writeFile(new URL('dist/index.mjs', root), `import sqlite3 from './index.cjs';\nexport const {${names.join(', ')}} = sqlite3;\nexport default sqlite3;\n`);
+await writeFile(new URL('dist/index.d.cts', root), await readFile(new URL('src/index.d.cts', root), 'utf8'));
+await writeFile(new URL('dist/index.d.mts', root), await readFile(new URL('src/index.d.mts', root), 'utf8'));
