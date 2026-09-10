@@ -33,7 +33,7 @@ npm install sqlite3@npm:sqlite3-compat
 
 Libraries that declare a peer range on `sqlite3` (TypeORM expects `^5.0.3`) see this package's own version through the alias; add an `overrides` entry or install with `--legacy-peer-deps` in that case (see [examples/alias.md](examples/alias.md)).
 
-Verified with Sequelize 6.37, TypeORM 0.3.30, Knex 3.1 and `sqlite` 5.1 (see [docs/compatibility.md](docs/compatibility.md)).
+Verified with Sequelize 6.37, TypeORM 0.3.30, Knex 3.1 and `sqlite` 5.1 (see [docs/compatibility.md](docs/compatibility.md)). Electron 41 and later ship Node 24.18+, so Electron apps get the same API with no `electron-rebuild` step.
 
 ## How compatible
 
